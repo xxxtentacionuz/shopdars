@@ -3,6 +3,7 @@ include "sections/head.php";
 include "sections/header.php";
 include "dbmysql.php";
 include ("function.php");
+include "sections/slide.php";
 
 $top_products = "SELECT * FROM product LIMIT 8";
 $top_products = $conn->query($top_products);
@@ -12,6 +13,7 @@ $top_products = $top_products->fetch_all(MYSQLI_ASSOC);
 ?>
 <!-- ========== HEADER ========== -->
 
+<?php ;?>
 
 <!-- ========== END HEADER ========== -->
 
@@ -19,7 +21,6 @@ $top_products = $top_products->fetch_all(MYSQLI_ASSOC);
 <main id="content" role="main">
 
 
-    <?php include "sections/header.php";?>
 
     <!-- Icon Blocks -->
     <div class="border-bottom">
