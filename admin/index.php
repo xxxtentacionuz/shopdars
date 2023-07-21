@@ -18,5 +18,5 @@ if (!isset($_SESSION['user']['username']) AND !isset($_SESSION['user']['id'])){
     </div>
 </section>
 <!-- Footer-->
-<?php require('sections/footer.php'); ?>
+<?php require('sections/foot.php'); ?>
 

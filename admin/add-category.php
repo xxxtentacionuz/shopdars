@@ -9,6 +9,7 @@ if (!isset($_SESSION['user']['username']) AND !isset($_SESSION['user']['id'])){
 <!-- Header-->
 <?php //require('sections/header.php'); ?>
 <?php require('../dbmysql.php'); ?>
+<?php require('admin_function.php'); ?>
 
 <?php
 if (isset($_POST['name']) && isset($_POST['category_id'])){
@@ -21,20 +22,17 @@ if (isset($_POST['name']) && isset($_POST['category_id'])){
 
     }
     if ($conn->query($inset_sql)){
-        header('location: category.php');
+        redirect('category');
     }
 }
 
-
-$cat_list = "SELECT * FROM category ORDER BY id ";
-$cat_list = $conn->query($cat_list);
-$cat_list = $cat_list->fetch_all(MYSQLI_ASSOC);
+$cat_list = AddUserCategory();
 ?>
 
 <!-- Section-->
 <section class="py-5">
     <div class="container px-4 px-lg-5 mt-5">
-        <h1>kategorya qushish</h1>
+        <h1>kategorya qushish</h1><a href="category.php" class="btn btn-success">orqaga</a>
         <form action="add-category.php" method="post">
             <div class="mb-3">
                 <label for="name" class="form-label">kategoryia nomi</label>
@@ -50,8 +48,9 @@ $cat_list = $cat_list->fetch_all(MYSQLI_ASSOC);
                     <?php endforeach; ?>
                 </select>
             </div>
-            <div class="mb-3">
-                <input  type="submit" class="btn btn-primary" value="Saqlash">
+            <div class="mb-3" style="display:flex;justify-content: space-between">
+                <input  type="submit" class="btn btn-outline-primary" value="QO`SHISH">
+                <a href="#"><button id="tozalash" type="reset" class="btn btn-outline-success">O`ZGARTIRSHNI YANGILASH</button> </a>
             </div>
         </form>
     </div>

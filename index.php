@@ -1,73 +1,56 @@
 <?php
-include "sections/head.php";
+session_start();
 include "sections/header.php";
+include "sections/head.php";
+include "sections/menu.php";
 include "dbmysql.php";
 include ("function.php");
-
-$top_products = "SELECT * FROM product LIMIT 8";
+$user_id = $_SESSION['user']['id'];
+$top_products = "SELECT * FROM product order by id desc LIMIT 8";
 $top_products = $conn->query($top_products);
 $top_products = $top_products->fetch_all(MYSQLI_ASSOC);
+
+$partners = getPartnerList();
+$BuySteps = BuyStep();
+
+?>
+<?php
+if (isset($_POST['submit'])){
+    $email = $_POST['email'];
+   $email = emailAdd($email);
+}
 
 
 ?>
 <!-- ========== HEADER ========== -->
-
+<?php include "sections/slide.php"; ?>
 
 <!-- ========== END HEADER ========== -->
 
 <!-- ========== MAIN CONTENT ========== -->
 <main id="content" role="main">
-
-
-    <?php include "sections/header.php";?>
-
     <!-- Icon Blocks -->
+    <!-- Clients -->
     <div class="border-bottom">
         <div class="container content-space-2">
             <div class="row">
-                <div class="col-md-4 mb-7 mb-md-0">
-                    <!-- Icon Block -->
-                    <div class="d-flex">
-                        <div class="flex-shrink-0">
-                            <img class="avatar avatar-4x3" src="assets/svg/illustrations/oc-protected-card.svg" alt="Image Description">
-                        </div>
-                        <div class="flex-grow-1 ms-4">
-                            <h4 class="mb-1">Secure checkout</h4>
-                            <p class="small mb-0">Guaranteed safe checkout</p>
-                        </div>
-                    </div>
-                    <!-- End Icon Block -->
-                </div>
-                <!-- End Col -->
+                <?php foreach ($BuySteps as $BuyStep): ?>
+                    <div class="col-md-4 mb-7 mb-md-0">
 
-                <div class="col-md-4 mb-7 mb-md-0">
-                    <!-- Icon Block -->
-                    <div class="d-flex">
-                        <div class="flex-shrink-0">
-                            <img class="avatar avatar-4x3" src="assets/svg/illustrations/oc-return.svg" alt="Image Description">
+                        <!-- Icon Block -->
+                        <div class="d-flex">
+                            <div class="flex-shrink-0">
+                                <img class="avatar avatar-4x3" src="<?= isset($BuyStep['image']) ? $BuyStep['image']:'' ?>" alt="Image Description">
+                            </div>
+                            <div class="flex-grow-1 ms-4">
+                                <h4 class="mb-1"><?= isset($BuyStep['wat']) ? $BuyStep['wat']:'' ?></h4>
+                                <p class="small mb-0"><?= isset($BuyStep['descriptin']) ? $BuyStep['descriptin']:'' ?></p>
+                            </div>
                         </div>
-                        <div class="flex-grow-1 ms-4">
-                            <h4 class="mb-1">30 Days return</h4>
-                            <p class="small mb-0">We offer you a full refund within 30 days of purchase.</p>
-                        </div>
-                    </div>
-                    <!-- End Icon Block -->
-                </div>
-                <!-- End Col -->
+                        <!-- End Icon Block -->
 
-                <div class="col-md-4">
-                    <!-- Icon Block -->
-                    <div class="d-flex">
-                        <div class="flex-shrink-0">
-                            <img class="avatar avatar-4x3" src="assets/svg/illustrations/oc-truck.svg" alt="Image Description">
-                        </div>
-                        <div class="flex-grow-1 ms-4">
-                            <h4 class="mb-1">Free shipping</h4>
-                            <p class="small mb-0">Automatically receive free standard shipping on every order.</p>
-                        </div>
                     </div>
-                    <!-- End Icon Block -->
-                </div>
+                <?php endforeach;?>
                 <!-- End Col -->
             </div>
             <!-- End Row -->
@@ -293,7 +276,7 @@ $top_products = $top_products->fetch_all(MYSQLI_ASSOC);
                         </a>
                         <!-- End Rating -->
 
-                        <button type="button" class="btn btn-outline-primary btn-sm rounded-pill">Add to cart</button>
+                        <button type="button" class="btn btn-outline-primary btn-sm rounded-pill to-cart" product-id="<?= isset($tproduct['id']) ? $tproduct['id']: '' ?>">Add to cart</button>
                     </div>
                 </div>
                 <!-- End Card -->
@@ -323,14 +306,14 @@ $top_products = $top_products->fetch_all(MYSQLI_ASSOC);
                     </div>
                     <!-- End Heading -->
 
-                    <form>
+                    <form method="post" action="index.php">
                         <!-- Input Card -->
                         <div class="input-card input-card-pill input-card-sm border mb-3">
                             <div class="input-card-form">
-                                <label for="subscribeForm" class="form-label visually-hidden">Enter email</label>
-                                <input type="text" class="form-control form-control-lg" id="subscribeForm" placeholder="Enter email" aria-label="Enter email">
+                                <p for="email" class="form-label visually-hidden"><?= isset($email['email'])?></p>
+                                <input type="text" name="email" class="form-control form-control-lg" id="subscribeForm" placeholder="Enter email" aria-label="Enter email">
                             </div>
-                            <button type="button" class="btn btn-primary btn-lg rounded-pill">Subscribe</button>
+                            <input type="submit" name="submit" class="btn btn-primary btn-lg rounded-pill" value="qo'shish"></input>
                         </div>
                         <!-- End Input Card -->
                     </form>
@@ -344,35 +327,14 @@ $top_products = $top_products->fetch_all(MYSQLI_ASSOC);
 
     <!-- Clients -->
     <div class="container content-space-2">
+
         <div class="row">
+            <?php foreach ($partners as $partner):?>
             <div class="col text-center py-3">
-                <img class="avatar avatar-lg avatar-4x3" src="assets/svg/brands/hollister-dark.svg" alt="Logo">
-            </div>
-            <!-- End Col -->
 
-            <div class="col text-center py-3">
-                <img class="avatar avatar-lg avatar-4x3" src="assets/svg/brands/levis-dark.svg" alt="Logo">
+                <img class="avatar avatar-lg avatar-4x3" src="<?= isset($partner['image']) ? $partner['image'] : '' ?>" alt="Logo">
             </div>
-            <!-- End Col -->
-
-            <div class="col text-center py-3">
-                <img class="avatar avatar-lg avatar-4x3" src="assets/svg/brands/new-balance-dark.svg" alt="Logo">
-            </div>
-            <!-- End Col -->
-
-            <div class="col text-center py-3">
-                <img class="avatar avatar-lg avatar-4x3" src="assets/svg/brands/puma-dark.svg" alt="Logo">
-            </div>
-            <!-- End Col -->
-
-            <div class="col text-center py-3">
-                <img class="avatar avatar-lg avatar-4x3" src="assets/svg/brands/nike-dark.svg" alt="Logo">
-            </div>
-            <!-- End Col -->
-
-            <div class="col text-center py-3">
-                <img class="avatar avatar-lg avatar-4x3" src="assets/svg/brands/tnf-dark.svg" alt="Logo">
-            </div>
+            <?php endforeach;?>
             <!-- End Col -->
         </div>
         <!-- End Row -->
@@ -382,8 +344,7 @@ $top_products = $top_products->fetch_all(MYSQLI_ASSOC);
 <!-- ========== END MAIN CONTENT ========== -->
 <?php include ('sections/footer.php'); ?>
 
-<!-- ========== FOOTER ========== -->
 
-<!-- ========== END FOOTER ========== -->
+<!-- ========== FOOTER ========== -->
 
 

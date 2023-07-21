@@ -4,8 +4,9 @@ if (!isset($_SESSION['user']['username']) AND !isset($_SESSION['user']['id'])){
 }
 ?>
 <?php require('sections/head.php'); ?>
+<?php require('admin_function.php'); ?>
 <!-- Navigation-->
-<?php require('sections/menu.php'); ?>
+<?php //require('sections/menu.php'); ?>
 <!-- Header-->
 <?php //require('sections/header.php'); ?>
 <?php require('../dbmysql.php'); ?>
@@ -16,6 +17,7 @@ if (!isset($_SESSION['user']['username']) AND !isset($_SESSION['user']['id'])){
         $instock = $_POST['instock'];
         $description = $_POST['description'];
         $category_id = $_POST['category_id'];
+        
         if (isset($_FILES['image'])){
             $folder = "../uploads/";
             $folder_file = $folder . basename($_FILES["image"]["name"]);
@@ -31,25 +33,18 @@ if (!isset($_SESSION['user']['username']) AND !isset($_SESSION['user']['id'])){
         }
 
         if ($conn->query($inset_sql)){
-            header('Location: product.php');
+            redirect('product');
         }
       }
-//else{
-//        echo '<br><br><br><br><br><br><br> <div class="offset-3 col-6 " ><h4 class="margin: 10px 50px 20px;" > Aka siz qaysidir qatorni tuldirmadingiz !!! <br><br> <p><a href="add-product.php" class="btn btn-success">Orqaga qaytish</a></p> </h4></div>';
-//        die();
-//         }
 
-
-    $cat_list = "SELECT * FROM category";
-    $cat_list = $conn->query($cat_list);
-    $cat_listc= $cat_list->fetch_all(MYSQLI_ASSOC);
+    $cat_list = AddProductList();
 
 ?>
 
 <!-- Section-->
 <section class="py-5">
     <div class="container px-4 px-lg-5 mt-5">
-        <h1>Mahsulot qushish</h1>
+        <h1>Mahsulot qushish</h1> <a href="product.php" class="btn btn-success">orqaga</a>
             <form action="add-product.php" method="post" enctype="multipart/form-data">
                 <div class="mb-3">
                     <label for="name" class="form-label">Mahsulot nomi</label>
@@ -78,14 +73,15 @@ if (!isset($_SESSION['user']['username']) AND !isset($_SESSION['user']['id'])){
                         <?php endforeach; ?>
                     </select>
                 </div>
-                <div class="mb-3">
-                    <input  type="submit" class="btn btn-primary" value="Saqlash">
+                <div class="mb-3" style="display:flex;justify-content: space-between">
+                    <input  type="submit" class="btn btn-outline-primary" value="QO`SHISH">
+                    <a href="#"><button id="tozalash" type="reset" class="btn btn-outline-success">O`ZGARTIRSHNI YANGILASH</button> </a>
                 </div>
            </form>
     </div>
 </section>
 <!-- Footer-->
-<?php require('sections/footer.php');?>
+<?php //require('sections/footer.php');?>
 
 
 

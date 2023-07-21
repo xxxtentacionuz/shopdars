@@ -4,12 +4,9 @@ if (!isset($_SESSION['user']['username']) AND !isset($_SESSION['user']['id'])){
 }
 ?>
 
-<?php require('sections/head.php'); ?>
-<!-- Navigation-->
-<?php require('sections/menu.php'); ?>
-<!-- Header-->
-<?php //require('sections/header.php'); ?>
-<?php require('../dbmysql.php'); ?>
+
+
+<?php require('dbmysql.php'); ?>
 
 <?php
 $user_sql = "SELECT * FROM User ORDER BY id DESC ";
@@ -29,8 +26,8 @@ $users = $users->fetch_all(MYSQLI_ASSOC);
                 <th scope="col">lastname</th>
                 <th scope="col">username</th>
                 <th scope="col">phone</th>
-                <th scope="col">email</th>
                 <th scope="col">password</th>
+                <th scope="col">email</th>
                 <th scope="col">gender</th>
                 <th scope="col">Created at</th>
                 <th scope="col">Updated at</th>
@@ -44,9 +41,9 @@ $users = $users->fetch_all(MYSQLI_ASSOC);
                     <td><?=$user['firstname'];?></td>
                     <td><?=$user['lastname'];?></td>
                     <td><?=$user['username'];?></td>
+                    <td><?=$user['password'];?></td>
                     <td><?=$user['phone'];?></td>
                     <td><?=$user['email'];?></td>
-                    <td><?=$user['password'];?></td>
                     <td><?=$user['gender'];?></td>
                     <td><?=$user['created_at'];?></td>
                     <td><?=$user['updated_at'];?></td>

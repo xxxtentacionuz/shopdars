@@ -5,36 +5,36 @@ if (!isset($_SESSION['user']['username']) AND !isset($_SESSION['user']['id'])){
 ?>
 <?php require('sections/head.php'); ?>
     <!-- Navigation-->
-<?php require('sections/menu.php'); ?>
+<?php //require('sections/menu.php'); ?>
     <!-- Header-->
 <?php //require('sections/header.php'); ?>
 <?php require('../dbmysql.php'); ?>
+<?php require('admin_function.php'); ?>
 <?php
     if (isset($_POST['firstname']) && isset($_POST['lastname']) && isset($_POST['username']) && isset($_POST['phone']) && isset($_POST['email']) && isset($_POST['password']) && isset($_POST['gender'])){
-        $firstname = $_POST['firstname'];
-        $lastname = $_POST['lastname'];
-        $username = $_POST['username'];
-        $phone = $_POST['phone'];
-        $email = $_POST['email'];
-        $password = $_POST['password'];
-        $gender = $_POST['gender'];
-        $inset_sql = "INSERT INTO user (firstname, lastname, username, phone, email, password, gender) VALUES ('$firstname', '$lastname', '$username', '$phone', '$email', '$password', $gender)";
-        if ($conn->query($inset_sql)){
-            header('Location: user.php');
-        }
+       $data =[
+           "lastname"=>$_POST['lastname'],
+           "firstname"=>$_POST['firstname'],
+           "username"=>$_POST['username'],
+           "phone"=>$_POST['phone'],
+           "email"=>$_POST['email'],
+           "password"=>$_POST['password'],
+           "gender"=>$_POST['gender'],
+       ];
+AddUser($data);
+
     }
 
 
-    $cat_list = "SELECT * FROM user ORDER BY id DESC ";
-    $cat_list = $conn->query($cat_list);
-    $cat_listc= $cat_list->fetch_all(MYSQLI_ASSOC);
+
+    $cat_listc = AddUserList();
 
 ?>
 
     <!-- Section-->
     <section class="py-5">
         <div class="container px-4 px-lg-5 mt-5">
-            <h1>user qushish</h1>
+            <h1>user qushish</h1> <a href="user.php" class="btn btn-success">orqaga</a>
             <form action="add-user.php" method="post">
                 <div class="mb-3">
                     <label for="firstname" class="form-label">Ism</label>
@@ -46,7 +46,7 @@ if (!isset($_SESSION['user']['username']) AND !isset($_SESSION['user']['id'])){
                 </div>
                 <div class="mb-3">
                     <label for="username" class="form-label">Login</label>
-                    <input name="username" type="password" class="form-control" id="username" placeholder="Username"><br>
+                    <input name="username" type="varchar" class="form-control" id="username" placeholder="Username"><br>
                 </div>
                 <div class="mb-3">
                     <label for="phone" class="form-label">Tefon raqam</label>
@@ -58,7 +58,7 @@ if (!isset($_SESSION['user']['username']) AND !isset($_SESSION['user']['id'])){
                 </div>
                 <div class="mb-3">
                     <label for="password" class="form-label">Parol</label>
-                    <input name="password" type="varchar" class="form-control" id="password" placeholder="Password"><br>
+                    <input name="password" type="password" class="form-control" id="password" placeholder="Password"><br>
                 </div>
                 <div class="mb-3">
                     <label for="gender" class="form-label">Jins</label>
@@ -74,11 +74,12 @@ if (!isset($_SESSION['user']['username']) AND !isset($_SESSION['user']['id'])){
 <!--                        --><?php //endforeach; ?>
 <!--                    </select>-->
                 </div>
-                <div class="mb-3">
-                    <input  type="submit" class="btn btn-primary" value="Saqlash">
+                <div class="mb-3" style="display:flex;justify-content: space-between">
+                    <input  type="submit" class="btn btn-outline-primary" value="QO`SHISH">
+                    <a href="#"><button id="tozalash" type="reset" class="btn btn-outline-success">O`ZGARTIRSHNI YANGILASH</button> </a>
                 </div>
             </form>
         </div>
     </section>
     <!-- Footer-->
-<?php require('sections/footer.php');?>
+<?php //require('sections/footer.php');?>

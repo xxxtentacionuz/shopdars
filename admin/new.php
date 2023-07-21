@@ -7,7 +7,7 @@ if (!isset($_SESSION['user']['username']) AND !isset($_SESSION['user']['id'])){
 <!-- Navigation-->
 <?php require('sections/menu.php'); ?>
 <!-- Header-->
-<?php //require('sections/header.php'); ?>
+<?php require('sections/header.php'); ?>
 
 <!-- Section-->
 <section class="py-5">
@@ -16,4 +16,4 @@ if (!isset($_SESSION['user']['username']) AND !isset($_SESSION['user']['id'])){
     </div>
 </section>
 <!-- Footer-->
-<?php require('sections/footer.php'); ?>
+<?php require('sections/foot.php'); ?>

@@ -8,8 +8,8 @@ if (isset($_SESSION['user']['username']) AND isset($_SESSION['user']['id'])){
 }
 if (isset($_POST['login']) && isset($_POST['login']) != '' && isset($_POST['Password']) != '' && isset($_POST['Password'])){
     $login = $_POST['login'];
-    $Parol = $_POST['Password'];
-    $login_sql = "SELECT * FROM user WHERE username = '$login'AND password = '$Parol'";
+    $Parol = md5(md5($_POST['Password']));
+    $login_sql = "SELECT * FROM user WHERE username = '$login'AND password = '$Parol'AND taype = 'admin'";
     $result = $conn->query($login_sql);
     $user = $result->fetch_assoc();
 
@@ -21,6 +21,7 @@ if (isset($_POST['login']) && isset($_POST['login']) != '' && isset($_POST['Pass
          $error = 'Login yoki parol notugri';
      }
 }
+
 ?>
 <section class="py-5">
     <div class="container px-4 px-lg-5 mt-5">

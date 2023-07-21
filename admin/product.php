@@ -23,15 +23,15 @@ if (!isset($_SESSION['user']['username']) AND !isset($_SESSION['user']['id'])){
         <table class="table">
             <thead>
             <tr>
-                <th scope="col">Id</th>
-                <th scope="col">Name</th>
-                <th scope="col">Price</th>
-                <th scope="col">Category_id</th>
-                <th scope="col">Instock</th>
-<!--                <th scope="col">Description</th>-->
-                <th scope="col">Created at</th>
-                <th scope="col">Updated at</th>
-                <th scope="col">Amallar</th>
+                <th class="col">Id</th>
+                <th class="col">Name</th>
+                <th class="col">Price</th>
+                <th class="col">Category_id</th>
+                <th class="col">Instock</th>
+<!--                <th class="col">Description</th>-->
+                <th class="col">Created at</th>
+                <th class="col">Updated at</th>
+                <th class="col">Amallar</th>
             </tr>
             </thead>
             <tbody>
@@ -42,7 +42,6 @@ if (!isset($_SESSION['user']['username']) AND !isset($_SESSION['user']['id'])){
                         <td><?=$product['price'];?></td>
                         <td><?=$product['category_id'];?></td>
                         <td><?=$product['instock'];?></td>
-<!--                        <td>--><?//=$product['description'];?><!--</td>-->
                         <td><?=$product['created_at'];?></td>
                         <td><?=$product['updated_at'];?></td>
                         <td>

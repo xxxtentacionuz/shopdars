@@ -5,17 +5,16 @@ if (!isset($_SESSION['user']['username']) AND !isset($_SESSION['user']['id'])){
 ?>
 <?php require('sections/head.php'); ?>
 <!-- Navigation-->
-<?php require('sections/menu.php'); ?>
+<?php //require('sections/menu.php'); ?>
 <!-- Header-->
 <?php //require('sections/header.php'); ?>
 <?php require('../dbmysql.php'); ?>
+<?php require('admin_function.php'); ?>
 
 <?php
 if (isset($_GET['id'])){
     $id = $_GET['id'];
-    $product_sql = "SELECT * FROM product WHERE id = {$id}";
-    $get_pro = $conn->query($product_sql);
-    $get_pro = $get_pro->fetch_assoc();
+    $get_pro = GetPraduct($id);
 }
 ?>
 
@@ -30,7 +29,7 @@ if (isset($_GET['id'])){
 
         $cat_sql = ''; // ''
         if ($_POST['category_id'] != '') {
-            $cat_sql = ",category_id = " . $_POST['category_id']; //,category_id = 15
+            $cat_sql = ",category_id = " . $_POST['category_id'];
         }
 
         if (isset($_FILES['image'])){
@@ -45,33 +44,26 @@ if (isset($_GET['id'])){
             $update_sql = "UPDATE product SET name = '$name', price = '$price', instock = '$instock', description = '$description'".$cat_sql." WHERE id = {$id}";
 
         }
-
-
         if ($conn->query($update_sql)){
-            header('Location: product.php');
+            redirect('product');
         }
     }
-
-
-    $cat_list = "SELECT * FROM category";
-    $cat_list = $conn->query($cat_list);
-    $cat_list= $cat_list->fetch_all(MYSQLI_ASSOC);
-
+    $cat_list = EditProductList();
 ?>
 
 <!-- Section-->
 <section class="py-5">
     <div class="container px-4 px-lg-5 mt-5">
-        <h1>Product qushish</h1>
+        <h1>Product qushish</h1> <a href="product.php" class="btn btn-success">orqaga</a>
             <form action="edit-product.php" method="post" enctype="multipart/form-data">
                 <div class="mb-3">
                     <input type="hidden" name="id" value="<?= isset($get_pro['id']) ? $get_pro['id'] : '' ?>">
                         <label for="name" class="form-label">Product nomi</label>
-                        <input name="name" type="text" value="<?= isset($get_pro['name'] ) ? $get_pro['name'] : ''  ?>" class="form-control" id="Product" placeholder="Product name"><br>
+                        <input name="name" type="text" value="<?= isset($get_pro['name'] ) ? $get_pro['name'] : ''   ?>" class="form-control" id="Product" placeholder="Product name"><br>
                     </div>
                     <div class="mb-3">
                         <label for="image" class="form-label">Mahsulot rasmi</label>
-                        <input name="image" type="file" value="<?= isset($get_pro['image'] ) ? $get_pro['image'] : NULL  ?>" class="form-control" id="image" placeholder="Mahsulot rasmi"><br>
+                        <input name="image" type="file" value="<?= isset($get_pro['image'] ) ? $get_pro['image'] : ''?>" class="form-control" id="image" placeholder="Mahsulot rasmi"><br>
                     </div>
                     <div class="mb-3">
                         <label for="price" class="form-label">Price </label>
@@ -96,14 +88,15 @@ if (isset($_GET['id'])){
                         <?php endforeach; ?>
                     </select>
                 </div>
-                <div class="mb-3">
-                    <input  type="submit" class="btn btn-primary" value="Saqlash">
+                <div class="mb-3" style="display:flex;justify-content: space-between">
+                    <input  type="submit" class="btn btn-outline-primary" value="O`ZGARTIRSH">
+                    <a href="#"><button id="tozalash" type="reset" class="btn btn-outline-success">O`ZGARTIRSHNI YANGILASH</button> </a>
                 </div>
            </form>
     </div>
 </section>
 <!-- Footer-->
-<?php require('sections/footer.php');?>
+<?php //require('sections/footer.php');?>
 
 
 
