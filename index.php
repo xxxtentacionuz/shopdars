@@ -5,8 +5,11 @@ include "sections/head.php";
 include "sections/menu.php";
 include "dbmysql.php";
 include ("function.php");
+include "sections/slide.php";
+
 $user_id = $_SESSION['user']['id'];
 $top_products = "SELECT * FROM product order by id desc LIMIT 8";
+
 $top_products = $conn->query($top_products);
 $top_products = $top_products->fetch_all(MYSQLI_ASSOC);
 
@@ -23,12 +26,23 @@ if (isset($_POST['submit'])){
 
 ?>
 <!-- ========== HEADER ========== -->
+<<<<<<< HEAD
 <?php include "sections/slide.php"; ?>
+=======
+
+<?php ;?>
+>>>>>>> 8242b64812dbc29a6823c3080fc968ec287d2f14
 
 <!-- ========== END HEADER ========== -->
 
 <!-- ========== MAIN CONTENT ========== -->
 <main id="content" role="main">
+<<<<<<< HEAD
+=======
+
+
+
+>>>>>>> 8242b64812dbc29a6823c3080fc968ec287d2f14
     <!-- Icon Blocks -->
     <!-- Clients -->
     <div class="border-bottom">
